@@ -1,0 +1,98 @@
+
+<ion-content >
+
+  <ion-header >
+    <ion-toolbar color="secondary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="home"></ion-back-button>
+      </ion-buttons>
+      <ion-title >Instrucciones</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col sizeLg="8" class="ion-align-self-center">
+        <ion-row>
+          <ion-col>
+            <ion-text class="ion-text-center" >
+              <h4>"Pasos para participar"</h4>
+          
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-segment [value]="instructions" [(ngModel)]="instructions" >
+          <ion-segment-button value="ticket">
+            <ion-label >Pasos</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="productos">
+            <ion-label >Productos</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <ion-row *ngIf="instructions == 'ticket'; else productos" style="justify-content: center;">
+          <ion-col size-lg="10" size-md="12">
+            <ion-row>
+              <ion-col>
+                <div *ngIf="!videoPath">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </div>
+                <div *ngIf="videoPath">
+                  <iframe [src]="videoPath" width="100%" id="iframeVideo" frameborder="0" allow="autoplay; fullscreen;" allowfullscreen></iframe>
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="12">
+                <!-- <ion-slides [options]="sliderOpts" zoom>
+                  <ion-slide >
+                    <div class="swiper-zoom-container">
+                      <div *ngIf="!imagePath">
+                        <ion-skeleton-text animated></ion-skeleton-text>
+                      </div>
+                      <div *ngIf="imagePath">
+                        <img [src]="imagePath" alt="pasos para ganar">
+                      </div>
+                    </div>
+                  </ion-slide>
+                </ion-slides> -->
+
+                <ol style="text-align: justify;">
+                  <li style="margin-bottom: 10px;">Regístrate en <a href="www.somostopochico.com">www.somostopochico.com</a> </li>
+                  <li style="margin-bottom: 10px;">Compra cualquier producto de la familia Coca Cola – Topo Chico .</li>
+                  <li style="margin-bottom: 10px;">Registra tus tickets y genera puntos, podrás obtener 1 punto por cada peso invertido.</li>
+                  <li style="margin-bottom: 10px;">Entra a la tienda virtual y canjea tus puntos por premios, los cuales recibirás por correo electrónico o domicilio.</li>
+                  <li style="margin-bottom: 10px;">Genera puntos extras: por invitar contactos, por compartir en redes sociales.</li>
+                  <!-- <li style="margin-bottom: 10px;">Acceso exclusivo a mini carreras de compras con vigencia corta con premios de mayor valor.</li> -->
+                </ol>
+
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+        <ng-template #productos >
+          <div class="table-responsive">
+            <table>
+              <tr>
+                <th>CATEGORIA</th>
+                <th>MARCA</th>
+                <th>PRODUCTO</th>
+                <th>TAMAÑO</th>
+              </tr>
+              <tr *ngFor="let product of products; let i = index">
+                <td>{{ product.name }}</td>
+                <td>{{ product.marca }}</td>
+                <td>{{ product.producto }}</td>
+                <td>{{ product.cantidad }}</td>
+              </tr>
+            </table>
+          </div>
+        </ng-template>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

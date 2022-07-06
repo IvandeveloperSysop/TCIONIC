@@ -1,0 +1,107 @@
+<ion-content >
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size-lg="8" style="padding: 0;">
+      <!-- <ion-card class="card-login">
+        <ion-card-content>
+        </ion-card-content>
+      </ion-card> -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size-xs="7" size-md="6" class="loginLogo">
+          <img src="assets/bg/login-logos2.png" class="Destapa Recompensas" id="">
+        </ion-col>
+        <ion-col size-xs="12" class="loginLogoResponsive">
+          <img src="assets/bg/login-logos2.png" class="Destapa Recompensas" id="">
+        </ion-col>
+        <ion-col size-md="6" size-xs="11">
+          <form #formulario="ngForm" (ngSubmit)="login(formulario)">
+    
+            <ion-row class="ion-justify-content-center ion-align-items-center">
+              <ion-col size="12" class="ion-text-center" style="margin-top: 0vh;">
+                <ion-button fill="clear" routerLink="/customer/bases" color="light ">
+                  <ion-icon slot="start" name="information-circle"></ion-icon>
+                  CONSULTAR BASES DEL CONCURSO
+                </ion-button>
+              </ion-col>
+            </ion-row>
+    
+            <ion-item id="itemEmail" class="text-light">
+              <ion-label position="floating">Email</ion-label>
+              <ion-input  type="email"
+                          [(ngModel)]="email"
+                          name="email"
+                          required></ion-input>
+              </ion-item>
+              <p *ngIf="valid" 
+                style="font-size: .8rem;color: red;text-align: center;">
+                Email incorrecto
+              </p>
+    
+            <ion-item id="itemPass" class="text-light">
+              <ion-label position="floating">Password</ion-label>
+              <ion-input  type="password"
+                          [(ngModel)]="password"
+                          name="password"
+                          required></ion-input>
+              </ion-item>
+              <p *ngIf="valid" 
+                style="font-size: .8rem;color: red;text-align: center;">
+                Contraseña incorrecta
+              </p>
+      
+            <ion-button shape="round"
+                        type="submit" 
+                        expand="block"
+                        class="ion-padding">
+              Ingresar
+            </ion-button>
+          </form>
+    
+          <ion-row class="ion-justify-content-center" style="margin-top: 2vh">
+            <ion-col sizeLg="6" sizeSm="12" class="ion-text-center">
+              <div class="ion-text-center">
+                <ion-text color="light" (click)="presentAlertPrompt()"><h4>¿Olvidaste tú contraseña?</h4></ion-text>
+              </div>
+            </ion-col>
+          </ion-row>
+    
+          <ion-row class="ion-justify-content-center" style="margin-top: 2vh">
+            <ion-col sizeLg="6" sizeSm="12" class="ion-text-center">
+              <div class="ion-text-center">
+                <ion-text color="light"><h4>Ingresa con:</h4></ion-text>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size-xs="8" size="6" class="ion-text-center">
+              <div id="buttonDiv"></div>
+            </ion-col>
+            <ion-col size="12" class="ion-text-center">
+              <ion-button shape="round"
+                          expand="block"
+                          class="ion-padding"
+                          (click)="signInWithFB()">
+                <ion-icon name="logo-facebook" slot="start"></ion-icon>
+                facebook
+              </ion-button>
+            </ion-col>
+          </ion-row>
+    
+          <ion-row class="ion-justify-content-center" style="margin-bottom: 16px">
+            <ion-col sizeLg="6" sizeSm="12" class="ion-text-center">
+              <ion-text color="light"><h4>¿Y si no tienes cuenta?</h4></ion-text>
+              <ion-button shape="round"
+                          expand="block"
+                          class="ion-padding"
+                          routerLink="/register">
+                Registrate
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  
+  
+</ion-content>

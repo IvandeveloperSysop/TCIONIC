@@ -1,0 +1,205 @@
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refreshPage($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <app-header-shop></app-header-shop>
+
+  <ion-grid class="home-menu">
+    <div class="circle-section"></div>
+  </ion-grid>
+
+  <ion-grid class="formGrid">
+    <ion-row class="ion-justify-content-center">
+      <ion-col sizeLg="6">
+
+        <img src="assets/images/uploadTicket-img.png" alt="image-points">
+
+
+        <ion-button fill="clear" color="secondary" routerLink="/customer/steps" id="buttonPasos">
+          <ion-icon slot="start" name="information-circle"></ion-icon>
+          <ion-text >
+            <b>Pasos para participar</b>
+          </ion-text>
+        </ion-button>
+
+        <ion-list>
+          <form #formulario="ngForm" id="formulario" (ngSubmit)="onSubmit(formulario)" enctype="multipart/form-data">
+            <!-- MD -->
+            <ion-item color="secondary" style="margin: 5px;" id="present{{i}}" *ngFor="let presentation of presentations; let i = index">
+              <!-- Input with value -->
+              <ion-label class="ion-text-wrap lbl-form">{{presentation['name']}}:</ion-label>
+              <ion-input  type="number"
+                (change)="presentationChange($event,presentation['id'])"
+                placeholder="0"
+                class="ion-text-end presentationInput"
+                name="present"></ion-input>
+            </ion-item>
+
+            <ion-item color="secondary" style="margin: 5px;" id="date-ticket">
+              <ion-label>Fecha del ticket</ion-label>
+              <ion-text slot="end" >{{ dateValue }}</ion-text>
+            </ion-item>
+
+            <ion-modal trigger="date-ticket" show-backdrop="true">
+              <ng-template>
+                <ion-datetime
+                  #popoverTicket
+                  showDefaultButtons = "true"
+                  mode="ios"
+                  presentation="date"
+                  displayFormat="dd/MM/yyyy"
+                  [(ngModel)]="ticket.fecha"
+                  [min]="dateMin"
+                  [max]="dateMax"
+                  name="fecha"
+                  placeholder="dd/mm/yyyy"
+                  required
+                  (ionChange)="dateValue = formatDate(popoverTicket.value)"
+                  cancelText="Cancelar"
+                  doneText="Confirmar"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal>
+
+
+
+            <ion-item>
+              <ion-grid style="height: 200px; ">
+                <ion-row>
+                  <ion-col size="4" class="ticket-zone-icon bg">
+                    <ion-label class="camera-icon">
+                      <div class="image-upload">
+                        <label for="file-input" >
+                          <ion-icon name="camera-outline"  style="font-size: 4rem;"></ion-icon>
+                        </label>
+                        <input  type="file" id="file-input" accept="image/*" name="img" [(ngModel)]="ticket.image" (change)="updateSource($event)" required/>
+                      </div>
+                    </ion-label>
+                    <p class="home-text" >FOTO DEL TICKET</p>
+                  </ion-col>
+
+                  <ion-col *ngIf="!source" size="8" class="ticket-zone" >
+                    <div class="image-upload bg" >
+                        <ion-label color="danger">
+                          <p *ngIf="labelErrorImg">Debe adjuntar la imagen del ticket</p>
+                        </ion-label>
+                    </div>
+                  </ion-col>
+
+                  <ion-col *ngIf="source" size="8" class="ticket-zone">
+                    <div class="image-upload" >
+                        <ion-img [src]="source" src=""></ion-img>
+                    </div>
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+
+              <!-- Input with value -->
+            </ion-item>
+
+            <ion-button type="submit"
+                        expand="block"
+                        shape="round"
+                        *ngIf="UploadButton; else nonUploadButton"
+                        [disabled]="!buttonValid"
+                        style="margin: 15px;"
+                        class="uploadTicket">
+              SUBIR TICKET
+            </ion-button>
+
+            <ng-template #nonUploadButton>
+              <ion-button
+                        expand="block"
+                        shape="round"
+                        (click)="uplodadNoValid()"
+                        style="margin: 15px;">
+                        SUBIR TICKET
+              </ion-button>
+            </ng-template>
+
+
+
+            <ion-row style="margin-top: 40px;">
+
+              <ion-col size="4" size-xs="12">
+                <ion-text color="dark">
+                  <b class="text-titleMarca">Marcas participantes:</b>
+                </ion-text>
+              </ion-col>
+
+              <ion-row class="ion-justify-content-center">
+                <ion-col size-md="3" size-xs="6" *ngFor="let m of marcas">
+                  <ion-card color="light">
+                    <ion-card-content>
+                      <div class="cover">
+                        <img src="{{ m.image }}" />
+                      </div>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
+
+              </ion-row>
+
+              <ion-button fill="clear" color="primary" routerLink="/customer/steps/productos" id="buttonPasos">
+                <ion-icon slot="start" name="information-circle"></ion-icon>
+                <ion-text >
+                  <b>Lista de productos</b>
+                </ion-text>
+              </ion-button>
+
+              <ion-col size="8" size-xs="12">
+                <ion-img src="assets/logos/mainSeven.png" class="imageCadenas" ></ion-img>
+              </ion-col>
+              <ion-col size="4" size-xs="12">
+                <ion-text color="dark">
+                  <b class="text-titleMarca">Territorios participantes:</b>
+                </ion-text>
+              </ion-col>
+              <ion-col size="8" size-xs="12">
+                <ion-text color="dark">
+                  <p class="home-text marcas-text" style="margin-top: 0;">Tiendas 7-Eleven en todas las ciudades de la República Mexicana.</p>
+                </ion-text>
+              </ion-col>
+              <ion-col size="4" size-xs="12">
+                <ion-text color="dark">
+                  <b class="text-titleMarca">Restricciones:</b>
+                </ion-text>
+              </ion-col>
+              <ion-col size="8" size-xs="12">
+                <ion-text color="dark">
+                  <p class="home-text marcas-text" style="margin-top: 0;">No se aceptarán tickets de otra cadena, esta Promoción es exclusiva de 7-Eleven.</p>
+                  <p class="home-text marcas-text" style="margin-top: 0;">Te recordamos que tus puntos tienen una vigencia del 01 de julio del 2022 al 16 de agosto de 2022 a las 11:59 pm, por lo que te invitamos a canjear tus puntos por premios en la tienda virtual durante este periodo.</p>
+                  <p class="home-text marcas-text" style="margin-top: 0;">*Se limita el canje de “Hieleras”, “Asadores”, “Kit de Sales y Rubs SMP”, Kit de Utensilios para Carne Asada” a solo uno por participante, en el caso de las “Tarjetas Virtuales Amazon” pueden ser ilimitadas.</p>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+
+          </form>
+
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col sizeLg="6">
+        <ion-row>
+          <ion-col sizeXs="12" sizeMd="6" sizeLg="8">
+            <div *ngIf="!videoPath">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </div>
+            <div *ngIf="videoPath">
+              <iframe [src]="videoPath" width="100%" height="240" frameborder="0" allow="autoplay; fullscreen;" allowfullscreen></iframe>
+            </div>
+          </ion-col>
+          <ion-col sizeXs="12" sizeMd="6" sizeLg="4" class="ion-text-center ion-align-self-center">
+            <ion-button class="ion-text-wrap" routerLink="/customer/bases" id="buttonBases">CONSULTAR BASES DEL CONCURSO</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
